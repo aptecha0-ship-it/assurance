@@ -6,8 +6,8 @@ Usage:
     gunicorn -w 4 run:app      (production)
 """
 import os
-from app import create_app
-from app.extensions import db
+from myapp import create_app
+from myapp.extensions import db
 
 app = create_app(os.getenv('FLASK_ENV', 'development'))
 
@@ -23,7 +23,7 @@ def init_db():
 @app.cli.command('seed-policies')
 def seed_policies():
     """Seed default warranty policies into the database."""
-    from app.services.policy_service import seed_default_policies
+    from myapp.services.policy_service import seed_default_policies
     with app.app_context():
         seed_default_policies()
         print('✓ Default warranty policies seeded.')
@@ -39,7 +39,7 @@ if __name__ == '__main__':
                 print('[OK] Database tables created.')
             sys.exit(0)
         elif cmd == 'seed-policies':
-            from app.services.policy_service import seed_default_policies
+            from myapp.services.policy_service import seed_default_policies
             with app.app_context():
                 seed_default_policies()
                 print('[OK] Default warranty policies seeded.')
